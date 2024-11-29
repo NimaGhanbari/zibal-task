@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: sh -c "celery -A zibal_project worker --loglevel=info & celery -A zibal_project beat --loglevel=info & python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - mongo
+    environment:
+      - DJANGO_SETTINGS_MODULE=your_project_name.settings
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis-data:/data
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  celerybeat:
+    build: .
+    command: celery -A zibal_project beat --loglevel=info
+    depends_on:
+      - redis
+      - web
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=zibal_project.settings
+
+  celeryworker:
+    build: .
+    command: celery -A zibal_project worker --loglevel=info
+    depends_on:
+      - redis
+      - web
+    volumes:
+      - .:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=zibal_project.settings
+
+volumes:
+  redis-data:
+  mongo-data:

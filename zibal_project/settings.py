@@ -1,6 +1,10 @@
-from dotenv import load_dotenv
+import os
 from pathlib import Path
-import os 
+
+from dotenv import load_dotenv
+from kavenegar import KavenegarAPI
+from pymongo import MongoClient
+from motor.motor_asyncio import AsyncIOMotorClient
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -12,6 +16,12 @@ DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = ['*']
 
+KAVENEGAR_API_KEY = os.getenv("KAVENEGAR_API_KEY")
+
+client = MongoClient(os.getenv("HOST"), os.getenv("PORT"))
+DB_NAME = os.getenv("DATABASE_NAME")
+db_client = client[DB_NAME]
+db_client_io = AsyncIOMotorClient(os.getenv("HOST"))
 
 THIRD_PARTY_APPS = [
     'rest_framework',
@@ -27,8 +37,8 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
+    "apps.notifications"
 ]
-
 
 INSTALLED_APPS = [
     *LOCAL_APPS,
@@ -65,7 +75,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "zibal_project.wsgi.application"
-
 
 LOGGING = {
     'version': 1,
@@ -105,14 +114,6 @@ LOGGING = {
 
 }
 
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -128,7 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -140,3 +140,8 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+EXTERNAL_API_URL = os.getenv("EXTERNAL_API_URL")
+EXTERNAL_API_KEY = os.getenv("EXTERNAL_API_KEY")
+
+KAVENEGAR_APP = KavenegarAPI(KAVENEGAR_API_KEY)
