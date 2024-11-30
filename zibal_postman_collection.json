@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "97f06da5-afe0-43d3-a964-aea7fdf16849",
+		"name": "zibal postman",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "25774936"
+	},
+	"item": [
+		{
+			"name": "Transaction Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/transaction/get-list?date_type=daily&type=count&merchant_id=674abb8889d16166ec9e739e",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"transaction",
+						"get-list"
+					],
+					"query": [
+						{
+							"key": "date_type",
+							"value": "daily",
+							"description": "daily,weekly,monthly (required)"
+						},
+						{
+							"key": "type",
+							"value": "count",
+							"description": "count,amount (required)"
+						},
+						{
+							"key": "merchant_id",
+							"value": "674abb8889d16166ec9e739e",
+							"description": "optional"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

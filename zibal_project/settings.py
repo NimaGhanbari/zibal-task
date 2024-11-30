@@ -18,7 +18,8 @@ ALLOWED_HOSTS = ['*']
 
 KAVENEGAR_API_KEY = os.getenv("KAVENEGAR_API_KEY")
 
-client = MongoClient(os.getenv("HOST"), os.getenv("PORT"))
+
+client = MongoClient(os.getenv("HOST"), int(os.getenv("PORT")))
 DB_NAME = os.getenv("DATABASE_NAME")
 db_client = client[DB_NAME]
 db_client_io = AsyncIOMotorClient(os.getenv("HOST"))
@@ -37,7 +38,8 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-    "apps.notifications"
+    "apps.notifications",
+    "apps.transactions",
 ]
 
 INSTALLED_APPS = [

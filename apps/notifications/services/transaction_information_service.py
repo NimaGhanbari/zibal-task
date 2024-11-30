@@ -14,7 +14,7 @@ class TransactionRepository:
     @staticmethod
     async def get_today_transactions(today: datetime.date):
         url = f"{EXTERNAL_API_URL}/transactions"
-        headers = {"Authorization": EXTERNAL_API_KEY}
+        headers = {"sec_key": EXTERNAL_API_KEY}
         params = {
             "start_date": f"{today}T00:00:00",
             "end_date": f"{today}T23:59:59",
