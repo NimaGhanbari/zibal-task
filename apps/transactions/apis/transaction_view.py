@@ -16,12 +16,12 @@ class GetTransactionData(APIView):
     serializer_class = TransactionResultSerializer
 
     def get(self, request, *args, **kwargs):
-        date_type = request.query_params.get('date_type')
+        mode = request.query_params.get('mode')
         transaction_type = request.query_params.get('type')
         merchant_id = request.query_params.get('merchant_id')
 
-        if date_type not in ['daily', 'weekly', 'monthly']:
-            return Response({"detail": "Invalid date_type. Must be 'daily', 'weekly', or 'monthly'."},
+        if mode not in ['daily', 'weekly', 'monthly']:
+            return Response({"detail": "Invalid mode. Must be 'daily', 'weekly', or 'monthly'."},
                             status=status.HTTP_400_BAD_REQUEST)
 
         if transaction_type not in ['count', 'amount']:
@@ -64,7 +64,7 @@ class GetTransactionData(APIView):
             },
         }
 
-        config = date_config[date_type]
+        config = date_config[mode]
         filter_query['created_at'] = {"$gte": config['start_date']}
 
         pipeline = [
@@ -79,5 +79,5 @@ class GetTransactionData(APIView):
         ]
 
         results = list(self.transaction_collection.aggregate(pipeline))
-        serializer = self.serializer_class(results, many=True, context={"date_type": date_type})
+        serializer = self.serializer_class(results, many=True, context={"mode": mode})
         return Response(serializer.data, status=status.HTTP_200_OK)

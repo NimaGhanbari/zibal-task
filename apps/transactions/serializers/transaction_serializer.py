@@ -7,7 +7,7 @@ class TransactionResultSerializer(serializers.Serializer):
 
     def get_date(self, obj):
         date_parts = obj["_id"]
-        date_type = self.context.get("date_type")
+        mode = self.context.get("mode")
 
         date_formatters = {
             'daily': lambda dp: f"{dp['year']}/{dp['month']:02d}/{dp['day']:02d}",
@@ -15,7 +15,7 @@ class TransactionResultSerializer(serializers.Serializer):
             'monthly': lambda dp: f"{dp['year']}-{dp['month']:02d}",
         }
 
-        return date_formatters.get(date_type, lambda _: "")(date_parts)
+        return date_formatters.get(mode, lambda _: "")(date_parts)
 
     def get_value(self, obj):
         return obj.get("result", 0)

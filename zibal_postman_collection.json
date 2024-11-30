@@ -12,7 +12,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://127.0.0.1:8000/transaction/get-list?date_type=daily&type=count&merchant_id=674abb8889d16166ec9e739e",
+					"raw": "http://127.0.0.1:8000/transaction/get-list?mode=daily&type=count&merchant_id=674abb8889d16166ec9e739e",
 					"protocol": "http",
 					"host": [
 						"127",
@@ -27,7 +27,7 @@
 					],
 					"query": [
 						{
-							"key": "date_type",
+							"key": "mode",
 							"value": "daily",
 							"description": "daily,weekly,monthly (required)"
 						},
